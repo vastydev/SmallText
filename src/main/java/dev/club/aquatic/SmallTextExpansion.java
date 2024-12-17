@@ -28,15 +28,15 @@ public class SmallTextExpansion extends PlaceholderExpansion {
 
     @Override
     public String getVersion() {
-        return "0.1";
+        return "0.2";
     }
 
     /**
-     * Processes the text when the expansion is called
+     * Processes the text when the expansion is called.
      *
-     * @param player Player (can be null)
-     * @param identifier The text given between %smalltext_<text>%
-     * @return Text converted to "small caps"
+     * @param player     The player (can be null).
+     * @param identifier The text given between %smalltext_(<text>)%.
+     * @return Text converted to "small caps".
      */
     @Override
     public String onRequest(OfflinePlayer player, String identifier) {
@@ -44,15 +44,20 @@ public class SmallTextExpansion extends PlaceholderExpansion {
             return null;
         }
 
-        String input = identifier.replace("_", " ");
-        return convertToSmallCaps(input);
+        if (identifier.startsWith("(") && identifier.endsWith(")")) {
+            String input = identifier.substring(1, identifier.length() - 1);
+
+            return convertToSmallCaps(input);
+        }
+
+        return null;
     }
 
     /**
-     * Method to convert text to "small caps"
+     * Converts the provided text to "small caps".
      *
-     * @param input Original text
-     * @return Text converted to small caps
+     * @param input The original text.
+     * @return The text converted to small caps.
      */
     private String convertToSmallCaps(String input) {
         StringBuilder result = new StringBuilder();
